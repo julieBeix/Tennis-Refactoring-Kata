@@ -7,7 +7,7 @@ class TennisGame1
     @p1points = 0
     @p2points = 0
   end
-        
+
   def won_point(playerName)
     if playerName == "player1"
       @p1points += 1
@@ -15,33 +15,33 @@ class TennisGame1
       @p2points += 1
     end
   end
-  
+
   def score
     result = ""
-    tempScore=0
-    if (@p1points==@p2points)
+    tempScore = 0
+    if (@p1points == @p2points)
       result = {
           0 => "Love-All",
           1 => "Fifteen-All",
           2 => "Thirty-All",
       }.fetch(@p1points, "Deuce")
-    elsif (@p1points>=4 or @p2points>=4)
+    elsif (@p1points >= 4 or @p2points >= 4)
       minusResult = @p1points-@p2points
-      if (minusResult==1)
-        result ="Advantage player1"
-      elsif (minusResult ==-1)
+      if (minusResult ==1 )
+        result = "Advantage player1"
+      elsif (minusResult == -1)
         result ="Advantage player2"
-      elsif (minusResult>=2)
+      elsif (minusResult >= 2)
         result = "Win for player1"
       else
-        result ="Win for player2"
+        result = "Win for player2"
       end
     else
       (1...3).each do |i|
-        if (i==1)
+        if (i == 1)
           tempScore = @p1points
         else
-          result+="-"
+          result += "-"
           tempScore = @p2points
         end
         result += {
@@ -63,7 +63,7 @@ class TennisGame2
     @p1points = 0
     @p2points = 0
   end
-      
+
   def won_point(playerName)
     if playerName == @player1Name
       p1Score()
@@ -75,77 +75,77 @@ class TennisGame2
   def score
     result = ""
     if (@p1points == @p2points and @p1points < 3)
-      if (@p1points==0)
+      if (@p1points == 0)
         result = "Love"
       end
-      if (@p1points==1)
+      if (@p1points == 1)
         result = "Fifteen"
       end
-      if (@p1points==2)
+      if (@p1points == 2)
         result = "Thirty"
       end
       result += "-All"
     end
-    if (@p1points==@p2points and @p1points>2)
+    if (@p1points == @p2points and @p1points > 2)
         result = "Deuce"
     end
-    
+
     p1res = ""
     p2res = ""
-    if (@p1points > 0 and @p2points==0)
-      if (@p1points==1)
+    if (@p1points > 0 and @p2points == 0)
+      if (@p1points == 1)
         p1res = "Fifteen"
       end
-      if (@p1points==2)
+      if (@p1points == 2)
         p1res = "Thirty"
       end
-      if (@p1points==3)
+      if (@p1points == 3)
         p1res = "Forty"
       end
       p2res = "Love"
       result = p1res + "-" + p2res
     end
-    if (@p2points > 0 and @p1points==0)
-      if (@p2points==1)
+    if (@p2points > 0 and @p1points == 0)
+      if (@p2points == 1)
         p2res = "Fifteen"
       end
-      if (@p2points==2)
+      if (@p2points == 2)
         p2res = "Thirty"
       end
-      if (@p2points==3)
+      if (@p2points == 3)
         p2res = "Forty"
       end
-      
+
       p1res = "Love"
       result = p1res + "-" + p2res
     end
-    
-    if (@p1points>@p2points and @p1points < 4)
-      if (@p1points==2)
+
+    if (@p1points > @p2points and @p1points < 4)
+      if (@p1points == 2)
         p1res="Thirty"
       end
-      if (@p1points==3)
-        p1res="Forty"
+      if (@p1points == 3)
+        p1res = "Forty"
       end
-      if (@p2points==1)
-        p2res="Fifteen"
+      if (@p2points == 1)
+        p2res = "Fifteen"
       end
-      if (@p2points==2)
-        p2res="Thirty"
+      if (@p2points == 2)
+        p2res = "Thirty"
       end
       result = p1res + "-" + p2res
     end
-    if (@p2points>@p1points and @p2points < 4)
-      if (@p2points==2)
+    if (@p2points > @p1points and @p2points < 4)
+      if (@p2points == 2)
         p2res="Thirty"
       end
-      if (@p2points==3)
+      if (@p2points == 3)
         p2res="Forty"
       end
-      if (@p1points==1)
+      if (@p1points == 1)
         p1res="Fifteen"
       end
-      if (@p1points==2)
+      if (@p1points == 2)
         p1res="Thirty"
       end
       result = p1res + "-" + p2res
@@ -156,10 +156,10 @@ class TennisGame2
     if (@p2points > @p1points and @p1points >= 3)
       result = "Advantage " + @player2Name
     end
-    if (@p1points>=4 and @p2points>=0 and (@p1points-@p2points)>=2)
+    if (@p1points >= 4 and @p2points >= 0 and (@p1points - @p2points) >= 2)
       result = "Win for " + @player1Name
     end
-    if (@p2points>=4 and @p1points>=0 and (@p2points-@p1points)>=2)
+    if (@p2points >= 4 and @p1points >= 0 and (@p2points - @p1points) >= 2)
       result = "Win for " + @player2Name
     end
     result
@@ -178,11 +178,11 @@ class TennisGame2
   end
 
   def p1Score
-    @p1points +=1
+    @p1points += 1
   end
-  
+
   def p2Score
-    @p2points +=1
+    @p2points += 1
   end
 end
 
@@ -193,7 +193,7 @@ class TennisGame3
     @p1 = 0
     @p2 = 0
   end
-      
+
   def won_point(n)
     if n == @p1N
         @p1 += 1
@@ -201,7 +201,7 @@ class TennisGame3
         @p2 += 1
     end
   end
-  
+
   def score
     if (@p1 < 4 and @p2 < 4) and (@p1 + @p2 < 6)
       p = ["Love", "Fifteen", "Thirty", "Forty"]
@@ -212,7 +212,7 @@ class TennisGame3
         "Deuce"
       else
         s = @p1 > @p2 ? @p1N : @p2N
-        (@p1-@p2)*(@p1-@p2) == 1 ? "Advantage " + s : "Win for " + s
+        (@p1 - @p2) * (@p1 - @p2) == 1 ? "Advantage " + s : "Win for " + s
       end
     end
   end
