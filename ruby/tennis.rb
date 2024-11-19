@@ -1,58 +1,67 @@
 
-class TennisGame1
+class TennisPlayer
+  attr_reader :points, :name
 
-  def initialize(player1Name, player2Name)
-    @player1Name = player1Name
-    @player2Name = player2Name
-    @p1points = 0
-    @p2points = 0
+  def initialize(player_name)
+    @name = player_name
+    @points = 0
   end
 
-  def won_point(playerName)
-    if playerName == "player1"
-      @p1points += 1
-    else
-      @p2points += 1
-    end
+  def won_point()
+    @points += 1
+  end
+end
+
+class TennisGame1
+  SCORE = {
+    0 => "Love",
+    1 => "Fifteen",
+    2 => "Thirty",
+    3 => "Forty",
+  }.freeze
+  private_constant :SCORE
+
+  def initialize(player1, player2)
+    @player1 = player1
+    @player2 = player2
   end
 
   def score
-    result = ""
-    tempScore = 0
-    if (@p1points == @p2points)
-      result = {
-          0 => "Love-All",
-          1 => "Fifteen-All",
-          2 => "Thirty-All",
-      }.fetch(@p1points, "Deuce")
-    elsif (@p1points >= 4 or @p2points >= 4)
-      minusResult = @p1points-@p2points
-      if (minusResult ==1 )
-        result = "Advantage player1"
-      elsif (minusResult == -1)
-        result ="Advantage player2"
-      elsif (minusResult >= 2)
-        result = "Win for player1"
-      else
-        result = "Win for player2"
-      end
+    case
+    when even_score?
+      calculate_even_score
+    when special_score?
+      calculate_special_score
     else
-      (1...3).each do |i|
-        if (i == 1)
-          tempScore = @p1points
-        else
-          result += "-"
-          tempScore = @p2points
-        end
-        result += {
-            0 => "Love",
-            1 => "Fifteen",
-            2 => "Thirty",
-            3 => "Forty",
-        }[tempScore]
-      end
+      calculate_normal_score
     end
-    result
+  end
+
+  private
+
+  def even_score?
+    @player1.points == @player2.points
+  end
+
+  def special_score?
+    @player1.points >= 4 || @player2.points >= 4
+  end
+
+  def calculate_even_score
+    return "Deuce" if @player1.points > 2
+    "#{SCORE[@player1.points]}-All"
+  end
+
+  def calculate_special_score
+    difference = @player1.points - @player2.points
+    leader_name = difference > 0 ? @player1.name : @player2.name
+    result = difference.abs == 1 ? "Advantage" : "Win"
+
+    [result, leader_name].join(" for ")
+  end
+
+  def calculate_normal_score
+    [SCORE[@player1.points], SCORE[@player2.points]].join("-")
   end
 end
 
