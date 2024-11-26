@@ -49,8 +49,8 @@ TEST_CASES = [
 
    [6, 5, 'Advantage for Julie', 'Julie', 'Thiago'],
    [6, 5, 'Advantage for Thiago', 'Thiago', 'Julie'],
-   #[8, 2, 'Win for Thiago', 'Thiago', 'Julie'], #TODO: Validation de score
-]
+   [8, 2, 'Invalid score', 'Thiago', 'Julie'],
+  ]
 
 class TestTennis < Minitest::Test
   def play_game(tennisGameClass, p1Points, p2Points, p1Name, p2Name)
@@ -58,12 +58,8 @@ class TestTennis < Minitest::Test
     player2 = TennisPlayer.new(p2Name)
 
     game = tennisGameClass.new(player1, player2)
-    (0..p1Points - 1).each do |i|
-      player1.won_point
-    end
-    (0..p2Points - 1).each do |i|
-      player2.won_point
-    end
+    p1Points.times { player1.won_point }
+    p2Points.times { player2.won_point }
     game
   end
 
@@ -80,7 +76,7 @@ class TestTennis < Minitest::Test
     TEST_CASES.each do |testcase|
       (p1Points, p2Points, score, p1Name, p2Name) = testcase
       game = play_game(TennisGame2, p1Points, p2Points, p1Name, p2Name)
-      assert_equal(score, game.score())
+      assert_equal(score, game.score(), "Test case score: #{p1Points} - #{p2Points}")
     end
   end
 
@@ -88,7 +84,7 @@ class TestTennis < Minitest::Test
     TEST_CASES.each do |testcase|
       (p1Points, p2Points, score, p1Name, p2Name) = testcase
       game = play_game(TennisGame3, p1Points, p2Points, p1Name, p2Name)
-      assert_equal(score, game.score())
+      assert_equal(score, game.score(), "Test case score: #{p1Points} - #{p2Points}")
     end
   end
 end

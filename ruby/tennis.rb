@@ -1,4 +1,3 @@
-
 class TennisPlayer
   attr_reader :points, :name
 
@@ -27,41 +26,48 @@ class TennisGame1
   end
 
   def score
-    case
-    when even_score?
-      calculate_even_score
-    when special_score?
-      calculate_special_score
-    else
-      calculate_normal_score
-    end
+    return "Invalid score" if invalid_score?(@player1.points, @player2.points)
+    return calculate_even_score(@player1.points) if even_score?(@player1.points, @player2.points)
+    
+    return calculate_special_score(
+      { name: @player1.name, points: @player1.points },
+      { name: @player2.name, points: @player2.points },
+    ) if special_score?(@player1.points, @player2.points)
+
+    calculate_normal_score(points1: @player1.points, points2: @player2.points)
   end
 
   private
 
-  def even_score?
-    @player1.points == @player2.points
+  def invalid_score?(points1, points2)
+    return true if points1 < 0 || points2 < 0
+    return true if (points1 > 4 || points2 > 4) && (points1 - points2).abs > 2
+    false
   end
 
-  def special_score?
-    @player1.points >= 4 || @player2.points >= 4
+  def even_score?(points1, points2)
+    points1 == points2
   end
 
-  def calculate_even_score
-    return "Deuce" if @player1.points > 2
-    "#{SCORE[@player1.points]}-All"
+  def special_score?(points1, points2)
+    points1 >= 4 || points2 >= 4
   end
 
-  def calculate_special_score
-    difference = @player1.points - @player2.points
-    leader_name = difference > 0 ? @player1.name : @player2.name
+  def calculate_even_score(points)
+    return "Deuce" if points > 2
+    "#{SCORE[points]}-All"
+  end
+
+  def calculate_special_score(player1, player2)
+    difference = player1[:points] - player2[:points]
+    leader_name = difference > 0 ? player1[:name] : player2[:name]
     result = difference.abs == 1 ? "Advantage" : "Win"
 
     [result, leader_name].join(" for ")
   end
 
-  def calculate_normal_score
-    [SCORE[@player1.points], SCORE[@player2.points]].join("-")
+  def calculate_normal_score(points1:, points2:)
+    [SCORE[points1], SCORE[points2]].join("-")
   end
 end
 
